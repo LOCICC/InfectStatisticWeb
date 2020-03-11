@@ -5,6 +5,7 @@
 <script>
   import {init} from '../comm/js/MyEcharts/StatisticalChart.js'
   import {EventBus} from '../comm/js/tools/bus.js'
+  import axios from 'axios'
   export default {
     mounted () {
       init('StatisticalChart', dataList0, '全国')
@@ -12,46 +13,26 @@
         if(msg === '全国') {
           init('StatisticalChart', dataList0, '全国')
         } else {
-          init('StatisticalChart', getData(), msg)
+          axios.get('api/getData.php', {
+            params: {
+              province: msg
+            }
+          }).then(function(res) {
+            window.console.log(res)
+            var ajaxi = res.length
+            var i0 = 0
+            while (i0 < ajaxi) {
+              window.console.log(res[i0]['Date'])
+              window.console.log(res[i0]['NumberOfTourists'])
+              i0 += 1
+            }
+            init('StatisticalChart', dataList0, msg)
+          }).catch(function (error) {
+            console.log(error)
+          })
         }
       })
     }
-  }
-  function randomNum(minNum, maxNum) {
-    if (arguments.length === 1) {
-      return parseInt(Math.random() * minNum + 1, 10)
-    } else if (arguments.length === 2) {
-      return parseInt(Math.random() * (maxNum - minNum + 1) + minNum, 10)
-    } else {
-      return 0
-    }
-  }
-  function getData () {
-    var dataList = [
-      ['1.27', '1.29', '1.31', '2.2', '2.4', '2.6', '2.10', '2.12', '2.14', '2.16', '2.18', '2.20', '2.22', '2.24'],
-      generateData(5),
-      [randomNum(0, 30), randomNum(0, 30), randomNum(0, 30), randomNum(0, 30), randomNum(0, 30), randomNum(0, 30),
-        randomNum(0, 30), randomNum(0, 30), randomNum(0, 30), randomNum(0, 30), randomNum(0, 30), randomNum(0, 30),
-        randomNum(0, 30), randomNum(0, 30), randomNum(0, 30)],
-      [randomNum(0, 5), randomNum(0, 5), randomNum(0, 5), randomNum(0, 5), randomNum(0, 5), randomNum(0, 5),
-        randomNum(0, 5), randomNum(0, 5), randomNum(0, 5), randomNum(0, 5), randomNum(0, 5), randomNum(0, 5),
-        randomNum(0, 5), randomNum(0, 5), randomNum(0, 5)],
-      [randomNum(0, 30), randomNum(0, 30), randomNum(0, 30), randomNum(0, 30), randomNum(0, 30), randomNum(0, 30),
-        randomNum(0, 30), randomNum(0, 30), randomNum(0, 30), randomNum(0, 30), randomNum(0, 30), randomNum(0, 30),
-        randomNum(0, 30), randomNum(0, 30), randomNum(0, 30)]
-  ]
-    return dataList
-  }
-  function generateData (begin) {
-    var datalist = ['1.27', '1.29', '1.31', '2.2', '2.4', '2.6', '2.10', '2.12', '2.14', '2.16', '2.18', '2.20', '2.22', '2.24']
-    datalist[0] = begin
-    for (var i = 1; i < 10; i++) {
-      datalist[i] = datalist[i - 1] + randomNum(0, 10)
-    }
-    for (i = 10; i < 14; i++) {
-      datalist[i] = datalist[i - 1] - randomNum(0, 5)
-    }
-    return datalist
   }
   var dataList0 = [
     ['1.27', '1.29', '1.31', '2.2', '2.4', '2.6', '2.10', '2.12', '2.14', '2.16', '2.18', '2.20', '2.22', '2.24'],

@@ -1,6 +1,7 @@
 import echarts from 'echarts'
 import 'echarts/map/js/china'
 import {EventBus} from '../../js/tools/bus.js'
+import Vue from 'vue'
 function init (id, data) {
   // eslint-disable-next-line no-undef
   var myChart = echarts.init(document.getElementById(id))
@@ -139,6 +140,7 @@ function init (id, data) {
   }
   myChart.setOption(option)
   myChart.on('click', function (params) {
+    Vue.prototype.$Area = params.name
     EventBus.$emit('ChangeArea', params.name)
   })
 }
