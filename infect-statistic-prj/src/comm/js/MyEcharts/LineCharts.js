@@ -1,12 +1,12 @@
 import echarts from 'echarts'
 import 'echarts/map/js/china'
-function init (id, name, data) {
+function init (id, name, data, area) {
   var dom = document.getElementById(id)
   var myChart = echarts.init(dom)
   var option = null
   option = {
     title: {
-      text: '湖北' + name + '趋势',
+      text: area + name + '趋势',
       subtext: '',
       left: 'center',
       align: 'right'

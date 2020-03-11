@@ -5,24 +5,30 @@
 <script>
   import {init} from '../comm/js/MyEcharts/LineCharts.js'
   import {EventBus} from '../comm/js/tools/bus.js'
+  import Vue from 'vue'
   export default {
     mounted () {
-      init('LineChart', '新增疑似', data1)
+      init('LineChart', '新增疑似', data1, '全国')
+      Vue.prototype.$Type = '新增疑似'
       EventBus.$on('ChangeLineCharts', (msg) => {
+        Vue.prototype.$Type = msg
         switch (msg) {
           case '新增疑似':
-            init('LineChart', msg, data1)
+            init('LineChart', msg, data1, this.$Area)
             break
           case '新增确诊':
-            init('LineChart', msg, data0)
+            init('LineChart', msg, data0, this.$Area)
             break
           case '治愈':
-            init('LineChart', msg, data2)
+            init('LineChart', msg, data2, this.$Area)
             break
           case '死亡':
-            init('LineChart', msg, data3)
+            init('LineChart', msg, data3, this.$Area)
             break
         }
+      })
+      EventBus.$on('ChangeArea', (msg) => {
+        init('LineChart', this.$Type, data1, msg)
       })
     }
   }
