@@ -22,7 +22,7 @@
             var ajaxi = res.length
             var i0 = 0
             while (i0 < ajaxi) {
-              window.console.log(res[i0]['ip'])
+              window.console.log(res[i0])
               i0 += 1
             }
             init('StatisticalChart', dataList0, msg)
