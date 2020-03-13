@@ -28,20 +28,36 @@
           dataOfLineChart = []
           var ajaxi = res.data.length
           var i0 = 0
-          window.console.log(res)
           while (i0 < ajaxi) {
             var temp = res.data[i0][msg]
             dataOfLineChart.push(temp)
             i0 += 1
           }
           init('LineChart', msg, dataOfLineChart, tempArea)
-          window.console.log(dataOfLineChart)
         }).catch(function (error) {
           console.log(error)
         })
       })
       EventBus.$on('ChangeArea', (msg) => {
-        init('LineChart', this.$Type, data1, msg)
+        var tempType = this.$Type
+        axios.get('api/getData_mid.php', {
+          params: {
+            type: this.$Type,
+            province: msg
+          }
+        }).then(function(res) {
+          dataOfLineChart = []
+          var ajaxi = res.data.length
+          var i0 = 0
+          while (i0 < ajaxi) {
+            var temp = res.data[i0][tempType]
+            dataOfLineChart.push(temp)
+            i0 += 1
+          }
+          init('LineChart', tempType, dataOfLineChart, msg)
+        }).catch(function (error) {
+          console.log(error)
+        })
       })
     }
   }
