@@ -9,14 +9,52 @@
 import {init} from '../comm/js/MyEcharts/map.js'
 import {EventBus} from '../comm/js/tools/bus.js'
 import Button from '../components/Button.vue'
+import axios from 'axios'
 export default {
+  created() {
+    EventBus.$off('ChangeArea') // 解决一次总线请求多次响应的问题
+    EventBus.$off('ChangeLineCharts')
+    EventBus.$off('ChangeState')
+  },
+  destroyed() {
+    EventBus.$off('ChangeArea')
+    EventBus.$off('ChangeLineCharts')
+    EventBus.$off('ChangeState')
+  },
   mounted () {
-    init('map', dataList0)
+    axios.get('api/getData_bottom.php', {
+      params: {
+        province: '全国'
+      }
+    }).then(function(res) {
+      window.console.log(res.data)
+      var ajaxi = res.data.length
+      var i0 = 0
+      dataList0 = []
+      dataList1 = []
+      while (i0 < ajaxi) {
+        dataList0.push({
+          name: res.data[i0]['省份名'],
+          value: res.data[i0]['现有确诊']
+        })
+        dataList1.push({
+          name: res.data[i0]['省份名'],
+          value: res.data[i0]['累计确诊']
+        })
+        i0 += 1
+      }
+      init('map', dataList0)
+    }).catch(function (error) {
+      dataList0 = dataListForTest
+      dataList1 = dataListForTest
+      init('map', dataListForTest)
+      console.log(error)
+    })
     EventBus.$on('ChangeState', (msg) => {
       if(msg === '累计确诊') {
-        init('map', dataList1)
+          init('map', dataList1)
       } else {
-        init('map', dataList0)
+          init('map', dataList0)
       }
     })
   },
@@ -24,7 +62,8 @@ export default {
     Button
   }
 }
-var dataList0 = [
+var dataList0 = []
+var dataListForTest = [
   {name: '南海诸岛', value: 0},
   {name: '北京', value: 206},
   {name: '天津', value: 57},
@@ -61,43 +100,7 @@ var dataList0 = [
   {name: '香港', value: 61},
   {name: '澳门', value: 50}
 ]
-var dataList1 = [
-  {name: '南海诸岛', value: 0},
-  {name: '北京', value: 399},
-  {name: '天津', value: 135},
-  {name: '上海', value: 335},
-  {name: '重庆', value: 575},
-  {name: '河北', value: 311},
-  {name: '河南', value: 1271},
-  {name: '云南', value: 174},
-  {name: '辽宁', value: 121},
-  {name: '黑龙江', value: 480},
-  {name: '湖南', value: 1016},
-  {name: '安徽', value: 989},
-  {name: '山东', value: 755},
-  {name: '新疆', value: 76},
-  {name: '江苏', value: 631},
-  {name: '浙江', value: 1205},
-  {name: '江西', value: 934},
-  {name: '湖北', value: 64287},
-  {name: '广西', value: 251},
-  {name: '甘肃', value: 91},
-  {name: '山西', value: 132},
-  {name: '内蒙古', value: 75},
-  {name: '陕西', value: 245},
-  {name: '吉林', value: 93},
-  {name: '福建', value: 293},
-  {name: '贵州', value: 146},
-  {name: '广东', value: 251},
-  {name: '青海', value: 18},
-  {name: '西藏', value: 1},
-  {name: '四川', value: 527},
-  {name: '宁夏', value: 71},
-  {name: '海南', value: 168},
-  {name: '台湾', value: 30},
-  {name: '香港', value: 79},
-  {name: '澳门', value: 50}
-]
+var dataList1 = []
 </script>
 <style scoped>
   #back{

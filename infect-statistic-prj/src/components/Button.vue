@@ -10,10 +10,20 @@
 <script>
   import {EventBus} from '../comm/js/tools/bus.js'
   export default {
+    created() {
+      EventBus.$off('ChangeArea') // 解决一次总线请求多次响应的问题
+      EventBus.$off('ChangeLineCharts')
+      EventBus.$off('ChangeState')
+    },
     data () {
       return {
         radio1: '现有确诊'// 设置默认选中
       }
+    },
+    destroyed() {
+      EventBus.$off('ChangeArea')
+      EventBus.$off('ChangeLineCharts')
+      EventBus.$off('ChangeState')
     },
     methods: {
       sendMessage: function (msg) {

@@ -10,6 +10,16 @@
 <script>
   import {EventBus} from '../comm/js/tools/bus.js'
   export default {
+    created() {
+      EventBus.$off('ChangeArea') // 解决一次总线请求多次响应的问题
+      EventBus.$off('ChangeLineCharts')
+      EventBus.$off('ChangeState')
+    },
+    destroyed() {
+      EventBus.$off('ChangeArea')
+      EventBus.$off('ChangeLineCharts')
+      EventBus.$off('ChangeState')
+    },
     data() {
       return {
         activeName: '新增疑似'
@@ -17,7 +27,6 @@
     },
     methods: {
       handleClick(tab, event) {
-        console.log(tab.name, event)
         EventBus.$emit('ChangeLineCharts', tab.name)
       }
     }

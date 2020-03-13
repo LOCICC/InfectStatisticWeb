@@ -2,6 +2,7 @@ import echarts from 'echarts'
 import 'echarts/map/js/china'
 function init (id, name, data, area) {
   var dom = document.getElementById(id)
+  echarts.dispose(document.getElementById(id))
   var myChart = echarts.init(dom)
   var option = null
   option = {

@@ -4,6 +4,7 @@ import {EventBus} from '../../js/tools/bus.js'
 import Vue from 'vue'
 function init (id, data) {
   // eslint-disable-next-line no-undef
+  echarts.dispose(document.getElementById(id))
   var myChart = echarts.init(document.getElementById(id))
   var option = null
 
@@ -33,7 +34,7 @@ function init (id, data) {
         {min: 300, max: 500, color: 'rgb(235, 59, 56)'},
         {min: 50, max: 300, color: 'rgb(248, 89, 76)'},
         {min: 20, max: 50, color: 'rgb(255, 137, 122)'},
-        {min: 1, max: 20, color: 'rgb(255, 218, 213)'},
+        {min: 1, max: 20, color: 'rgb(255, 180, 170)'},
         {max: 1, color: 'rgb(255, 255, 255)'}
       ],
       left: 'left',
@@ -67,6 +68,30 @@ function init (id, data) {
         },
         {
           name: '澳门',
+          label: {
+            normal: {
+              color: '#21243d'
+            }
+          }
+        },
+        {
+          name: '新疆',
+          label: {
+            normal: {
+              color: '#21243d'
+            }
+          }
+        },
+        {
+          name: '安徽',
+          label: {
+            normal: {
+              color: '#21243d'
+            }
+          }
+        },
+        {
+          name: '福建',
           label: {
             normal: {
               color: '#21243d'
