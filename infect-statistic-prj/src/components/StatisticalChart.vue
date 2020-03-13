@@ -19,10 +19,11 @@
             }
           }).then(function(res) {
             window.console.log(res)
+            window.console.log(res.data)
             var ajaxi = res.length
             var i0 = 0
             while (i0 < ajaxi) {
-              window.console.log(res[i0])
+              window.console.log(res.data[i0]['治愈'])
               i0 += 1
             }
             init('StatisticalChart', dataList0, msg)

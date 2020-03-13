@@ -42,209 +42,49 @@
 </template>
 
 <script>
+  import axios from 'axios'
   export default {
     name: 'PartFour',
     data() {
       return {
         multipleSelection: [],
-        total: 40,
+        total: 50,
         pagesize: 8,
         currentPage: 1,
-        tableData: [{
-          province: '湖北',
-          new_ip: 227,
-          now_ip: 1763,
-          cure: 50313,
-          death: 3053
-        }, {
-          province: '湖北',
-          new_ip: 7,
-          now_ip: 17523,
-          cure: 503113,
-          death: 30523
-        }, {
-          province: '湖北',
-          new_ip: 7,
-          now_ip: 1723,
-          cure: 503135,
-          death: 3053
-        }, {
-          province: '湖北',
-          new_ip: 7,
-          now_ip: 1723,
-          cure: 503513,
-          death: 3053
-        }, {
-          province: '湖北',
-          new_ip: 7,
-          now_ip: 1723,
-          cure: 50313,
-          death: 34053
-        }, {
-          province: '湖北',
-          new_ip: 7,
-          now_ip: 1723,
-          cure: 505313,
-          death: 3053
-        }, {
-          province: '湖北',
-          new_ip: 7,
-          now_ip: 17523,
-          cure: 50313,
-          death: 3053
-        }, {
-          province: '湖北',
-          new_ip: 7,
-          now_ip: 1723,
-          cure: 503413,
-          death: 3053
-        }, {
-          province: '湖北',
-          new_ip: 7,
-          now_ip: 1723,
-          cure: 50313,
-          death: 3053
-        }, {
-          province: '湖北',
-          new_ip: 7,
-          now_ip: 1723,
-          cure: 50313,
-          death: 30553
-        }, {
-          province: '湖北',
-          new_ip: 7,
-          now_ip: 1723,
-          cure: 505313,
-          death: 3053
-        }, {
-          province: '湖北',
-          new_ip: 7,
-          now_ip: 17523,
-          cure: 503113,
-          death: 30523
-        }, {
-          province: '湖北',
-          new_ip: 7,
-          now_ip: 1723,
-          cure: 503135,
-          death: 3053
-        }, {
-          province: '湖北',
-          new_ip: 7,
-          now_ip: 1723,
-          cure: 503513,
-          death: 3053
-        }, {
-          province: '湖北',
-          new_ip: 7,
-          now_ip: 1723,
-          cure: 50313,
-          death: 34053
-        }, {
-          province: '湖北',
-          new_ip: 7,
-          now_ip: 1723,
-          cure: 505313,
-          death: 3053
-        }, {
-          province: '湖北',
-          new_ip: 7,
-          now_ip: 17523,
-          cure: 50313,
-          death: 3053
-        }, {
-          province: '湖北',
-          new_ip: 7,
-          now_ip: 17523,
-          cure: 503113,
-          death: 30523
-        }, {
-          province: '湖北',
-          new_ip: 7,
-          now_ip: 1723,
-          cure: 503135,
-          death: 3053
-        }, {
-          province: '湖北',
-          new_ip: 7,
-          now_ip: 1723,
-          cure: 503513,
-          death: 3053
-        }, {
-          province: '湖北',
-          new_ip: 7,
-          now_ip: 1723,
-          cure: 50313,
-          death: 34053
-        }, {
-          province: '湖北',
-          new_ip: 7,
-          now_ip: 1723,
-          cure: 505313,
-          death: 3053
-        }, {
-          province: '湖北',
-          new_ip: 7,
-          now_ip: 17523,
-          cure: 50313,
-          death: 3053
-        }, {
-          province: '湖北',
-          new_ip: 7,
-          now_ip: 17523,
-          cure: 503113,
-          death: 30523
-        }, {
-          province: '湖北',
-          new_ip: 7,
-          now_ip: 1723,
-          cure: 503135,
-          death: 3053
-        }, {
-          province: '湖北',
-          new_ip: 7,
-          now_ip: 1723,
-          cure: 503513,
-          death: 3053
-        }, {
-          province: '湖北',
-          new_ip: 7,
-          now_ip: 1723,
-          cure: 50313,
-          death: 34053
-        }, {
-          province: '湖北',
-          new_ip: 7,
-          now_ip: 1723,
-          cure: 505313,
-          death: 3053
-        }, {
-          province: '湖北',
-          new_ip: 7,
-          now_ip: 17523,
-          cure: 50313,
-          death: 3053
-        }, {
-          province: '湖北',
-          new_ip: 7,
-          now_ip: 1723,
-          cure: 503513,
-          death: 3053
-        }, {
-          province: '湖北',
-          new_ip: 7,
-          now_ip: 1723,
-          cure: 503143,
-          death: 3053
-        }]
+        tableData: dataOfProvinces
       }
     },
     methods: {
       current_change: function(currentPage) {
         this.currentPage = currentPage
       }
+    },
+    mounted () {
+      axios.get('api/getData_bottom.php', {
+        params: {
+        }
+      }).then(function(res) {
+        var ajaxi = res.data.length
+        var i0 = 0
+        while (i0 < ajaxi) {
+          // window.console.log(res.data[i0]['治愈'])
+          var temp = {province: res.data[i0]['省份名'],
+            new_ip: res.data[i0]['新增确诊'],
+            now_ip: res.data[i0]['现有确诊'],
+            cure: res.data[i0]['治愈'],
+            death: res.data[i0]['死亡']
+          }
+          dataOfProvinces.push(temp)
+          i0 += 1
+        }
+        window.console.log(dataOfProvinces)
+        window.console.log(this.tableData)
+      }).catch(function (error) {
+        console.log(error)
+      })
     }
   }
+  var dataOfProvinces = []
 </script>
 
 <style scoped>
