@@ -9,6 +9,13 @@
   export default {
     created() {
       EventBus.$off('ChangeArea') // 解决一次总线请求多次响应的问题
+      EventBus.$off('ChangeLineCharts')
+      EventBus.$off('ChangeState')
+    },
+    destroyed() {
+      EventBus.$off('ChangeArea')
+      EventBus.$off('ChangeLineCharts')
+      EventBus.$off('ChangeState')
     },
     mounted () {
       axios.get('api/getData.php', {

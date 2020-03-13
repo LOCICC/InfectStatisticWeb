@@ -3,6 +3,7 @@ import 'echarts/map/js/china'
 // eslint-disable-next-line no-unused-vars
 function init (id, dataList, name) {
   var dom = document.getElementById(id)
+  echarts.dispose(document.getElementById(id))
   var myChart = echarts.init(dom)
   var option = null
   var itemStyle = {

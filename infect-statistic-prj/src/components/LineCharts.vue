@@ -11,11 +11,34 @@
     created() {
       EventBus.$off('ChangeArea') // 解决一次总线请求多次响应的问题
       EventBus.$off('ChangeLineCharts')
+      EventBus.$off('ChangeState')
+    },
+    destroyed() {
+      EventBus.$off('ChangeArea')
+      EventBus.$off('ChangeLineCharts')
+      EventBus.$off('ChangeState')
     },
     mounted () {
-      init('LineChart', '新增疑似', data1, '全国')
       Vue.prototype.$Area = '全国'
       Vue.prototype.$Type = '新增疑似'
+      axios.get('api/getData_mid.php', {
+        params: {
+          type: '新增疑似',
+          province: this.$Area
+        }
+      }).then(function(res) {
+        dataOfLineChart = []
+        var ajaxi = res.data.length
+        var i0 = 0
+        while (i0 < ajaxi) {
+          var temp = res.data[i0]['新增疑似']
+          dataOfLineChart.push(temp)
+          i0 += 1
+        }
+        init('LineChart', '新增疑似', dataOfLineChart, '全国')
+      }).catch(function (error) {
+        console.log(error)
+      })
       EventBus.$on('ChangeLineCharts', (msg) => {
         var tempArea = this.$Area
         Vue.prototype.$Type = msg
@@ -61,7 +84,6 @@
       })
     }
   }
-  var data1 = [1291, 1032, 1347, 2103, 3156, 2447, 2147, 2097, 14840, 2420, 1933, 1639, 631]
   var dataOfLineChart = []
 </script>
 
