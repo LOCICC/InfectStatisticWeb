@@ -7,6 +7,9 @@
   import {EventBus} from '../comm/js/tools/bus.js'
   import axios from 'axios'
   export default {
+    created() {
+      EventBus.$off('ChangeArea') // 解决一次总线请求多次响应的问题
+    },
     mounted () {
       init('StatisticalChart', dataList0, '全国')
       EventBus.$on('ChangeArea', (msg) => {

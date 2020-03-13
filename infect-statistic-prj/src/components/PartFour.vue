@@ -77,8 +77,6 @@
           dataOfProvinces.push(temp)
           i0 += 1
         }
-        window.console.log(dataOfProvinces)
-        window.console.log(this.tableData)
       }).catch(function (error) {
         console.log(error)
       })
