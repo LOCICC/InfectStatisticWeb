@@ -1,11 +1,13 @@
 <template>
-  <div id="app">
-    <PartOne id="partOne"></PartOne>
+  <div id="app" class="Top">
+    <PartOne id="partOne" class="Top"></PartOne>
     <div id="PartTwoAndThree">
       <PartTwo id="partTwo"></PartTwo>
       <PartThree id="partThree"></PartThree>
     </div>
     <PartFour id="partFour"></PartFour>
+    <PartFive id="partFive"></PartFive>
+    <el-backtop></el-backtop>
   </div>
 </template>
 
@@ -14,14 +16,16 @@ import PartOne from './components/PartOne'
 import PartTwo from './components/PartTwo'
 import PartThree from './components/PartThree'
 import PartFour from './components/PartFour'
-import Trend from './components/Trend'
+import PartFive from './components/PartFive'
+import Trend from './components/TrendButton'
 export default {
   components: {
     Trend,
     PartOne,
     PartTwo,
     PartThree,
-    PartFour
+    PartFour,
+    PartFive
   },
   mounted() {
     document.querySelector('body').setAttribute('style', 'background-color:#f6f6f6')
@@ -63,4 +67,9 @@ export default {
     height: 672px;
     margin:20px auto;
   }
+#partFive{
+  width: 1370px;
+  height: 672px;
+  margin:20px auto;
+}
 </style>

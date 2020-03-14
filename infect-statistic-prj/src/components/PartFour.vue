@@ -61,9 +61,9 @@
         }
       }).then(function(res) {
         var ajaxi = res.data.length
+        window.console.log(res.data)
         var i0 = 0
         while (i0 < ajaxi) {
-          // window.console.log(res.data[i0]['治愈'])
           var temp = {province: res.data[i0]['省份名'],
             new_ip: res.data[i0]['新增确诊'],
             now_ip: res.data[i0]['现有确诊'],

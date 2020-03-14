@@ -1,9 +1,9 @@
 <template>
   <div id="back">
     <div id="map" class="block"></div>
-    <div id="timeSelector">
-      <el-tooltip class="item" effect="dark" content="由于数据局限性，请选择2.13-3.9间的日期" placement="right">
-      <el-date-picker
+      <div id="timeSelector">
+        <el-tooltip class="item" effect="dark" content="由于数据局限性，请选择2.13-3.9间的日期" placement="right">
+          <el-date-picker
         v-model="valueOfTimeSelector"
         value-format="yyyy-MM-dd"
         style="width: 195px"
@@ -11,16 +11,16 @@
         @change="change"
         placeholder="选择日期">
       </el-date-picker>
-      </el-tooltip>
-    </div>
-    <Button style="margin: 10px auto"></Button>
+        </el-tooltip>
+      </div>
+      <Button style="margin: 10px auto"></Button>
   </div>
 </template>
 
 <script>
 import {init} from '../comm/js/MyEcharts/map.js'
 import {EventBus} from '../comm/js/tools/bus.js'
-import Button from '../components/Button.vue'
+import Button from '../components/MapTypeButton.vue'
 import Vue from 'vue'
 import axios from 'axios'
 export default {

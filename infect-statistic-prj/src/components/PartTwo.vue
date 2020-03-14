@@ -7,7 +7,7 @@
 
 <script>
   import LineCharts from '../components/LineCharts'
-  import Trend from '../components/Trend'
+  import Trend from '../components/TrendButton'
   export default {
     name: 'PartTwo',
     components: {
