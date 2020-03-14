@@ -23,7 +23,6 @@
           province: '全国'
         }
       }).then(function(res) {
-        window.console.log(res.data)
         var ajaxi = res.data.length
         var i0 = 0
         dataList0 = []
@@ -55,7 +54,6 @@
               province: msg
             }
           }).then(function(res) {
-            window.console.log(res.data)
             var ajaxi = res.data.length
             var i0 = 0
             dataList0 = []
