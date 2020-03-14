@@ -10,22 +10,18 @@
       </el-table-column>
       <el-table-column
         prop="new_ip"
-        sortable
         label="新增确诊">
       </el-table-column>
       <el-table-column
         prop="now_ip"
-        sortable
         label="现有确诊">
       </el-table-column>
       <el-table-column
         prop="cure"
-        sortable
         label="治愈">
       </el-table-column>
       <el-table-column
         prop="death"
-        sortable
         label="死亡"
       width="100px">
       </el-table-column>

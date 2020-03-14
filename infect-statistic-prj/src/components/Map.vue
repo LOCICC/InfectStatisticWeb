@@ -1,7 +1,19 @@
 <template>
   <div id="back">
-    <div id="map"></div>
-    <Button></Button>
+    <div id="map" class="block"></div>
+    <div id="timeSelector">
+      <el-tooltip class="item" effect="dark" content="由于数据局限性，请选择2.13-3.9间的日期" placement="right">
+      <el-date-picker
+        v-model="valueOfTimeSelector"
+        value-format="yyyy-MM-dd"
+        style="width: 195px"
+        type="date"
+        @change="change"
+        placeholder="选择日期">
+      </el-date-picker>
+      </el-tooltip>
+    </div>
+    <Button style="margin: 10px auto"></Button>
   </div>
 </template>
 
@@ -9,6 +21,7 @@
 import {init} from '../comm/js/MyEcharts/map.js'
 import {EventBus} from '../comm/js/tools/bus.js'
 import Button from '../components/Button.vue'
+import Vue from 'vue'
 import axios from 'axios'
 export default {
   created() {
@@ -21,39 +34,86 @@ export default {
     EventBus.$off('ChangeLineCharts')
     EventBus.$off('ChangeState')
   },
+  data() {
+    return{
+      valueOfTimeSelector: '2020-03-09'
+    }
+  },
+  methods: {
+    judgeDate: function(a, b) {
+      var arr = a.toString().split('-')
+      var starttime = new Date(arr[0], arr[1], arr[2])
+      var starttimes = starttime.getTime()
+      var arrs = b.toString().split('-')
+      var endTime = new Date(arrs[0], arrs[1], arrs[2])
+      var endTimes = endTime.getTime()
+      // 进行日期比较
+      if (endTimes >= starttimes) {
+        return 'true'
+      }else{
+        return 'false'
+      }
+    },
+    change: function() {
+      if ((this.judgeDate(this.valueOfTimeSelector, '2020-03-09') === 'true') &&
+        ((this.judgeDate('2020-02-13', this.valueOfTimeSelector) === 'true'))) {
+        this.getData(this.valueOfTimeSelector)
+      } else {
+        this.$notify.error({
+          title: '错误',
+          message: '日期不在范围',
+          position: 'top-left',
+          offset: 300
+        })
+      }
+    },
+    getData: function (date) {
+      axios.get('api/getData_map.php', {
+        params: {
+          date: date,
+          province: '全国'
+        }
+      }).then(function(res) {
+        var ajaxi = res.data.length
+        var i0 = 0
+        dataList0 = []
+        dataList1 = []
+        while (i0 < ajaxi) {
+          dataList0.push({
+            name: res.data[i0]['省份名'],
+            value: res.data[i0]['现有确诊']
+          })
+          dataList1.push({
+            name: res.data[i0]['省份名'],
+            value: res.data[i0]['累计确诊']
+          })
+          i0 += 1
+        }
+        if (Vue.prototype.$TypeOfMap === '现有确诊') {
+          init('map', dataList0)
+        } else {
+          init('map', dataList1)
+        }
+        return 1
+      }).catch(function (error) {
+        dataList0 = dataListForTest
+        dataList1 = dataListForTest
+        init('map', dataListForTest)
+        console.log(error)
+        return 0
+      })
+    }
+  },
   mounted () {
-    axios.get('api/getData_bottom.php', {
-      params: {
-        province: '全国'
-      }
-    }).then(function(res) {
-      var ajaxi = res.data.length
-      var i0 = 0
-      dataList0 = []
-      dataList1 = []
-      while (i0 < ajaxi) {
-        dataList0.push({
-          name: res.data[i0]['省份名'],
-          value: res.data[i0]['现有确诊']
-        })
-        dataList1.push({
-          name: res.data[i0]['省份名'],
-          value: res.data[i0]['累计确诊']
-        })
-        i0 += 1
-      }
-      init('map', dataList0)
-    }).catch(function (error) {
-      dataList0 = dataListForTest
-      dataList1 = dataListForTest
-      init('map', dataListForTest)
-      console.log(error)
-    })
+    this.getData('2020-03-09')
+    Vue.prototype.$TypeOfMap = '现有确诊'
     EventBus.$on('ChangeState', (msg) => {
       if(msg === '累计确诊') {
-          init('map', dataList1)
+          Vue.prototype.$TypeOfMap = '累计确诊'
+          this.getData(this.valueOfTimeSelector)
       } else {
-          init('map', dataList0)
+          Vue.prototype.$TypeOfMap = '现有确诊'
+          this.getData(this.valueOfTimeSelector)
       }
     })
   },
@@ -114,5 +174,11 @@ var dataList1 = []
     border:0px solid #ddd;
     margin: auto;
     background: rgb(255, 255, 255);
+  }
+  #timeSelector{
+    margin-left: 276px;
+  }
+  #timeSelector{
+    width: 100px;
   }
 </style>
